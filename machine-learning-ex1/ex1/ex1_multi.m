@@ -49,10 +49,10 @@ pause;
 % Scale features and set them to zero mean
 fprintf('Normalizing Features ...\n');
 
-[X mu sigma] = featureNormalize(X);
+[X_norm mu sigma] = featureNormalize(X);
 
 % Add intercept term to X
-X = [ones(m, 1) X];
+X = [ones(m, 1) X_norm];
 
 
 %% ================ Part 2: Gradient Descent ================
@@ -89,8 +89,11 @@ num_iters = 400;
 theta = zeros(3, 1);
 [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
 
+
+
+
 % Plot the convergence graph
-figure;
+% figure;
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
@@ -104,7 +107,8 @@ fprintf('\n');
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+
+price = [1 (1650-mu(1))/sigma(1) (3-mu(2))/sigma(2)]*theta; % You should change this
 
 
 % ============================================================
@@ -114,6 +118,7 @@ fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
 
 %% ================ Part 3: Normal Equations ================
 
@@ -149,7 +154,7 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
+price = [1 1650 3] *theta;% You should change this
 
 
 % ============================================================

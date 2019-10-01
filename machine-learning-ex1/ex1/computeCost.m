@@ -1,3 +1,5 @@
+%X is m x 2 matrix, y is m x 1, theta is 2 x 1;
+
 function J = computeCost(X, y, theta)
 %COMPUTECOST Compute cost for linear regression
 %   J = COMPUTECOST(X, y, theta) computes the cost of using theta as the
@@ -12,8 +14,9 @@ J = 0;
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
+h = X*theta;
 
-
+J = sum((h - y).^2) / (2*m);
 
 
 

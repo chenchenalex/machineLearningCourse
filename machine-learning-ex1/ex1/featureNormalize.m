@@ -1,4 +1,5 @@
 function [X_norm, mu, sigma] = featureNormalize(X)
+% X is m x 2 matrix
 %FEATURENORMALIZE Normalizes the features in X 
 %   FEATURENORMALIZE(X) returns a normalized version of X where
 %   the mean value of each feature is 0 and the standard deviation
@@ -25,12 +26,9 @@ sigma = zeros(1, size(X, 2));
 %
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
-
-
-
-
-
-
+mu = mean(X);
+sigma = std(X);
+X_norm = (X - mu) ./ sigma;
 
 
 

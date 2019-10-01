@@ -1,3 +1,4 @@
+%X is m x 2 matrix, y is m x 1, theta is 2 x 1;
 function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)
 %GRADIENTDESCENT Performs gradient descent to learn theta
 %   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by 
@@ -17,9 +18,9 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
 
-
-
-
+    % X' is 2 x 97, h - y is 97 x 1;
+  h = X * theta;
+  theta = theta - (alpha / m) * (X' * (h - y));
 
 
 
