@@ -16,8 +16,9 @@ function [J grad] = nnCostFunction(nn_params, ...
 
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
+
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
-                 hidden_layer_size, (input_layer_size + 1));
+hidden_layer_size, (input_layer_size + 1));
 
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
@@ -26,6 +27,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 m = size(X, 1);
          
 % You need to return the following variables correctly 
+X = [ones(m, 1), X];
 J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
@@ -39,6 +41,37 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+% a2: 5000 * 25
+a2 = sigmoid(X * Theta1');
+
+% Theta1: 25 * 401
+% Theta2: 10 * 26
+% X: 5000 * 401
+% y: 5000 * 1, y': 1* 5000
+% plus bias unit 1
+% a2 5000 * 26
+a2 = [ones(length(a2), 1) a2];
+
+% h: 5000 * 10
+    % current label yk: 5000 * 1
+
+h = sigmoid(a2 * Theta2');
+
+for k=1:num_labels
+    yk = [y == k];
+    hk = h(:, k);
+
+    J = J + (1/m) * sum(-1 * yk' * log(hk) - (1 - yk)' * log(1-hk))
+end
+
+sumTheta1 = sum(Theta1(:, 2:size(Theta1, 2)) .^ 2);
+sumTheta2 = sum(Theta2(:, 2:size(Theta2, 2)) .^ 2);
+regularization = (lambda / (2 * m)) * sum([sumTheta1 sumTheta2]);
+
+J = J + regularization;
+
+
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
