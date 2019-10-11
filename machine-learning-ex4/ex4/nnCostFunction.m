@@ -56,13 +56,13 @@ a2 = [ones(size(a2, 1), 1) a2];
 
 h = sigmoid(a2 * Theta2');
 
-
-for k=1:num_labels
-    yk = [y == k];
-    hk = h(:, k);
-
-    J = J + (1/m) * sum(-1 * yk' * log(hk) - (1 - yk)' * log(1-hk));
+y_matrix = []; % 5000 * 10
+for i=1: max(y)
+    y_matrix = [y_matrix y==(i * ones(size(y), 1))];
 end
+
+
+J = (1/m) * sum(sum(-1 * y_matrix .* log(h) - (1 - y_matrix) .* log(1-h), 2));
 
 sumTheta1 = sum(Theta1(:, 2:size(Theta1, 2)) .^ 2);
 sumTheta2 = sum(Theta2(:, 2:size(Theta2, 2)) .^ 2);
@@ -100,14 +100,6 @@ J = J + regularization;
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-% map y to Y
-y_matrix = [];
-
-for i = 1:max(y)
-    y_matrix = [y_matrix y==(size(y_matrix,2)+1)];
-end
-
 
 delta3 = zeros(size(y_matrix,2), 1);
 
